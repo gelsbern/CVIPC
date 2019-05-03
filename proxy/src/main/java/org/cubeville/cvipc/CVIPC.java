@@ -66,12 +66,6 @@ public class CVIPC extends Plugin {
         ipcServer.send(message);
     }
 
-    public void broadcastMessage(String message) {
-        for(IPCServer ipcServer: ipcServers.values()) {
-            ipcServer.send(message);
-        }
-    }
-    
     public void registerInterface(String channel, IPCInterface ipcInterface) {
         ipcInterfaces.put(channel, ipcInterface);
     }

@@ -11,7 +11,7 @@ public class ScmdCommand extends Command
 
     public void execute(CommandSender sender, String[] args) {
         if(args.length < 3) {
-            sender.sendMessage("/scmd <server|all> <player> <command>");
+            sender.sendMessage("/scmd <server> <player> <command>");
             return;
         }
 
@@ -24,12 +24,7 @@ public class ScmdCommand extends Command
         }
 
         try {
-            if(server.equals("all")) {
-                CVIPC.getInstance().broadcastMessage("cmd|" + player + "|" + command);
-            }
-            else {
-                CVIPC.getInstance().sendMessage(server, "cmd|" + player + "|" + command);
-            }
+            CVIPC.getInstance().sendMessage(server, "cmd|" + player + "|" + command);
         }
         catch(IllegalArgumentException e) {
             sender.sendMessage(e.getMessage());
