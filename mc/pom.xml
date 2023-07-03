@@ -4,7 +4,7 @@
   <groupId>org.cubeville</groupId>
   <artifactId>CVIPC</artifactId>
   <packaging>jar</packaging>
-  <version>0.1</version>
+  <version>1.18</version>
   <name>CVIPC</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -14,7 +14,7 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.12.2-R0.1-SNAPSHOT</version>
+      <version>1.18-R0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

@@ -1,7 +1,8 @@
 name: CVIPC
 main: org.cubeville.cvipc.CVIPC
 authors: [FrediW]
-version: 0.1
+version: 1.18
+api-version: 1.18
 
 commands:
   pcmd:
@@ -15,7 +16,6 @@ permissions:
   cvchat.dispatcher:
     description: Permission to use the proxy command dispatcher
     default: op
-
   cvipc.reconnect:
     description: Permission to call reconnect
     default: op

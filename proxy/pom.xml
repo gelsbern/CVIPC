@@ -6,19 +6,19 @@
   
   <groupId>org.cubeville.proxy</groupId>
   <artifactId>CVIPC</artifactId>
-  <version>0.1</version>
+  <version>1.18</version>
 
   <dependencies>
     <dependency>
       <groupId>net.md-5</groupId>
       <artifactId>bungeecord-api</artifactId>
-      <version>1.12-SNAPSHOT</version>
+      <version>1.18-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>net.md-5</groupId>
       <artifactId>bungeecord-config</artifactId>
-      <version>1.12-SNAPSHOT</version>
+      <version>1.18-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

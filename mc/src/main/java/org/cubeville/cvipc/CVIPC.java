@@ -11,15 +11,14 @@ import org.bukkit.command.CommandSender;
 public class CVIPC extends JavaPlugin
 {
     private IPCClient ipcClient;
-    private boolean pcmdEnabled;
     
     Map<String, IPCInterface> ipcInterfaces;
     
     public void onEnable() {
         Integer port = getConfig().getInt("ipc_server_port");
-        ipcClient = new IPCClient(this, port);
+	String address = getConfig().getString("ipc_server_address");
+        ipcClient = new IPCClient(this, port, address);
         ipcInterfaces = new HashMap<>();
-        pcmdEnabled = getConfig().getBoolean("pcmd_enabled");
     }
 
     public void onDisable() {
@@ -28,17 +27,12 @@ public class CVIPC extends JavaPlugin
     
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(label.equals("pcmd")) {
-            if(pcmdEnabled) {
-                String pcmd = "";
-                for(int i = 0; i < args.length; i++) {
-                    if(pcmd.length() > 0) pcmd += " ";
-                    pcmd += args[i];
-                }
-                sendMessage("cmd|console|" + pcmd);
-            }
-            else {
-                sender.sendMessage("pcmd is not enabled.");
-            }
+	    String pcmd = "";
+	    for(int i = 0; i < args.length; i++) {
+		if(pcmd.length() > 0) pcmd += " ";
+		pcmd += args[i];
+	    }
+	    sendMessage("cmd|console|" + pcmd);
         }
         return false;
     }

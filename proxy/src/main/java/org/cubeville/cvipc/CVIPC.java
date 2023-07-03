@@ -5,6 +5,7 @@ import java.io.File;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -43,7 +44,10 @@ public class CVIPC extends Plugin {
             for(String server: servers) {
                 Configuration sc = (Configuration) ipcList.get(server);
                 int port = ((Configuration) ipcList.get(server)).getInt("port");
-                ipcServers.put(server, new IPCServer(this, server, port));
+		String source = ((Configuration) ipcList.get(server)).getString("source");
+		boolean pcmd = ((Configuration) ipcList.get(server)).getBoolean("pcmd");
+		List<String> whitelist = ((Configuration) ipcList.get(server)).getStringList("whitelist");
+                ipcServers.put(server, new IPCServer(this, server, port, source, pcmd, whitelist));
             }
 
             getProxy().getPluginManager().registerCommand(this, new ScmdCommand());
@@ -59,10 +63,15 @@ public class CVIPC extends Plugin {
         }
         instance = null;
     }
+
+    public void onServerConnect(String server) {
+        IPCInterface i = ipcInterfaces.get("serverconnect");
+        if(i != null) i.process(server, "serverconnect", "");
+    }
     
     public void sendMessage(String server, String message) {
         IPCServer ipcServer = ipcServers.get(server);
-        if(ipcServer == null) throw new IllegalArgumentException("Server " + server + " is not registerd.");
+        if(ipcServer == null) throw new IllegalArgumentException("Server " + server + " is not registerd: " + message);
         ipcServer.send(message);
     }
 
@@ -81,6 +90,16 @@ public class CVIPC extends Plugin {
     }
 
     protected void processRemoteMessage(String serverName, String message) {
+	{
+	    IPCServer s = ipcServers.get(serverName);
+	    if(s.getPcmd() == false) {
+		if(s.isInWhitelist(message) == false) {
+		    System.out.println("Denied IPC request from " + serverName + ": " + message);
+		    return;
+		}
+	    }
+	}
+	
         if(message.indexOf("|") == -1) return;
 
         String channel = getPart(message);

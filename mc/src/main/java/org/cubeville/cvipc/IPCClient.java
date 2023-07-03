@@ -10,14 +10,22 @@ public class IPCClient implements Runnable
 {
     private int port;
     private CVIPC plugin;
+    private String address;
+    
     Socket socket;
     DataOutputStream outstream;
     boolean connected;
     AtomicBoolean active;
     
-    public IPCClient(CVIPC plugin, int port) {
+    public IPCClient(CVIPC plugin, int port, String address) {
         this.port = port;
         this.plugin = plugin;
+	if(address == null) {
+	    this.address = "127.0.0.1";
+	}
+	else {
+	    this.address = address;
+	}
         connected = false;
         active = new AtomicBoolean(true);
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, this);
@@ -33,7 +41,7 @@ public class IPCClient implements Runnable
         DataInputStream instream = null;
         try {
             System.out.println("IPC connect to port " + port);
-            socket = new Socket("127.0.0.1", port);
+            socket = new Socket(address, port);
             outstream = new DataOutputStream(socket.getOutputStream());
             instream = new DataInputStream(socket.getInputStream());
             connected = true;
